@@ -1,8 +1,149 @@
 @import "tailwindcss";
 
+/* 设计系统变量 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 主色调 */
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-accent: #ff0000;
+  --color-gray-dark: #1a1a1a;
+  --color-gray-medium: #666666;
+  --color-gray-light: #cccccc;
+
+  /* 数据可视化色彩 */
+  --color-data-danger: #dc2626;
+  --color-data-warning: #f59e0b;
+  --color-data-info: #3b82f6;
+  --color-data-success: #10b981;
+
+  /* 字体 */
+  --font-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-english: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", monospace;
+
+  /* 动画 */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 1000ms;
+}
+
+/* 全局样式 */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-chinese);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-medium);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-light);
+}
+
+/* 文本选择样式 */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+}
+
+/* 工具类 */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-gray-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.backdrop-blur-custom {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* 动画类 */
+.animate-fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-typewriter {
+  overflow: hidden;
+  border-right: 2px solid var(--color-secondary);
+  white-space: nowrap;
+  animation: typewriter 3s steps(40) forwards, blink 1s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* 响应式断点 */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
 }
 
 @theme inline {

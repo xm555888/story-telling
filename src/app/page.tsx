@@ -16,11 +16,16 @@ export default function Home() {
 
       {/* 页面内容 */}
       <div className="relative">
-        {/* Hero Section */}
+        {/* Hero Section - 固定定位 */}
         <HeroSection />
 
-        {/* 第一章 */}
-        <ChapterOne />
+        {/* 滚动内容区域 */}
+        <div className="relative z-5">
+          {/* 滚动触发空间 - 让用户可以滚动触发Hero组件透明度变化 */}
+          <div className="h-[150vh]" />
+
+          {/* 第一章 */}
+          <ChapterOne />
 
         {/* 占位符：第二章和第三章 */}
         <section id="chapter-2" className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -30,12 +35,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="chapter-3" className="min-h-screen bg-gray-800 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h2 className="text-4xl font-bold mb-4">第三章：70条公路的死亡档案</h2>
-            <p className="text-gray-400">即将推出...</p>
-          </div>
-        </section>
+          <section id="chapter-3" className="min-h-screen bg-gray-800 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-4xl font-bold mb-4">第三章：70条公路的死亡档案</h2>
+              <p className="text-gray-400">即将推出...</p>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   );

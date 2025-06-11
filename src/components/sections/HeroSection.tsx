@@ -18,6 +18,9 @@ export default function HeroSection() {
   // Hero组件整体可见性 - 在临界值处完全隐藏
   const heroVisibility = useTransform(scrollY, [0, 399, 400], [1, 1, 0]);
 
+  // Hero组件指针事件控制 - 当不可见时禁用指针事件
+  const heroPointerEvents = useTransform(scrollY, [0, 399, 400], ["auto", "auto", "none"]);
+
   // 背景变暗效果 - 随着滚动逐渐变暗
   const backgroundDarkness = useTransform(scrollY, [0, 200, 400], [0, 0.3, 0.7]);
 
@@ -51,7 +54,8 @@ export default function HeroSection() {
         className="fixed inset-0 z-50 overflow-hidden"
         style={{
           opacity: heroVisibility,
-          filter: heroBlur
+          filter: heroBlur,
+          pointerEvents: heroPointerEvents
         }}
       >
         {/* 背景图片 - 固定不变 */}

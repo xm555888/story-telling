@@ -1,18 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import SatelliteMap from '../charts/SatelliteMap';
-
-interface MapPoint {
-  id: string;
-  name: string;
-  x: number;
-  y: number;
-  type: 'industrial' | 'conflict' | 'accident' | 'road';
-  description?: string;
-  details?: string;
-}
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import SatelliteMap, { MapPoint } from '../charts/SatelliteMap';
 
 export default function ChapterOne() {
   const [selectedMapPoint, setSelectedMapPoint] = useState<MapPoint | null>(null);
@@ -120,13 +110,22 @@ export default function ChapterOne() {
             </div>
           </div>
 
+          {/* 现场描述 */}
+          <div className="py-8">
+            <div className="flex items-center justify-center min-h-[30vh]">
+              <p className="text-xl md:text-2xl text-white text-center max-w-5xl leading-relaxed drop-shadow-lg px-8">
+                以洲石路为界，左侧是富源工业城，右侧是强荣东工业园。人声嘈杂的人群中，有路过看热闹的群众，更多是与现场执法人员争吵的富源工业城一带的老板和员工。民警在道路中间绿化带与斑马线的交界处一字排开，形成一道人墙，隔开了封锁路段与愤躁动的人群。
+              </p>
+            </div>
+          </div>
+
           {/* 现场态势图 - 适中大小，可滚动查看 */}
           <div className="py-12 px-6">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-8">
                 <h3 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-2xl">现场态势图</h3>
                 <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-                  基于真实卫星图像的事故现场态势 - 点击标记点了解详细信息
+                  洲石路与飞达路交叉口现场态势图 - 点击标记点了解详细信息
                 </p>
               </div>
 
@@ -136,7 +135,9 @@ export default function ChapterOne() {
                   <SatelliteMap
                     onPointClick={handleMapPointClick}
                     className="w-full h-full"
-                    backgroundImage="/images/satellite-map.svg"
+                    backgroundImage="/images/simplified-map.svg"
+                    selectedPointId={selectedMapPoint?.id}
+                    showHoverTooltip={true}
                   />
                 </div>
               </div>
@@ -148,35 +149,82 @@ export default function ChapterOne() {
         </div>
       </div>
 
-      {/* 选中地图点的详情面板 */}
-      {selectedMapPoint && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedMapPoint(null)}
-        >
-          <motion.div
-            className="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-gray-600"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start mb-6">
-              <h3 className="text-2xl font-bold text-white">{selectedMapPoint.name}</h3>
-              <button
-                onClick={() => setSelectedMapPoint(null)}
-                className="text-gray-400 hover:text-white text-2xl"
-              >
-                ✕
-              </button>
-            </div>
-            <p className="text-gray-300 mb-4">{selectedMapPoint.description}</p>
-            {selectedMapPoint.details && (
-              <p className="text-gray-400 text-sm">{selectedMapPoint.details}</p>
-            )}
-          </motion.div>
-        </motion.div>
-      )}
+      {/* 侧边栏详情面板 */}
+      <AnimatePresence>
+        {selectedMapPoint && (
+          <>
+            {/* 背景遮罩 */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={() => setSelectedMapPoint(null)}
+            />
+
+            {/* 侧边栏 */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-full max-w-lg bg-gray-900 border-l border-gray-600 z-50 overflow-y-auto"
+            >
+              {/* 头部 */}
+              <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-6 flex justify-between items-start">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">{selectedMapPoint.name}</h3>
+                  <p className="text-gray-400 text-sm">{selectedMapPoint.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedMapPoint(null)}
+                  className="text-gray-400 hover:text-white text-xl transition-colors ml-4 flex-shrink-0"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* 内容区域 */}
+              <div className="p-6">
+                {/* 详细文字内容 */}
+                {selectedMapPoint.details && (
+                  <div className="text-gray-300 text-sm leading-relaxed space-y-4 mb-6">
+                    {selectedMapPoint.details.split('\n\n').map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
+
+                {/* 如果有单张图片，显示图片 */}
+                {selectedMapPoint.image && (
+                  <div className="mb-6">
+                    <img
+                      src={selectedMapPoint.image}
+                      alt={selectedMapPoint.name}
+                      className="w-full rounded-lg border border-gray-600"
+                    />
+                  </div>
+                )}
+
+                {/* 如果有多张图片，显示在文字下方 */}
+                {selectedMapPoint.images && selectedMapPoint.images.length > 0 && (
+                  <div className="space-y-4">
+                    {selectedMapPoint.images.map((imageSrc, index) => (
+                      <div key={index}>
+                        <img
+                          src={imageSrc}
+                          alt={`${selectedMapPoint.name} - 图片 ${index + 1}`}
+                          className="w-full rounded-lg border border-gray-600"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

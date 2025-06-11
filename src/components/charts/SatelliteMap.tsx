@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface MapPoint {
+export interface MapPoint {
   id: string;
   name: string;
   x: number; // 百分比位置
@@ -11,12 +11,16 @@ interface MapPoint {
   type: 'industrial' | 'conflict' | 'accident' | 'road';
   description?: string;
   details?: string;
+  image?: string; // 详情图片URL
+  images?: string[]; // 多张图片URL数组
 }
 
 interface SatelliteMapProps {
   className?: string;
   onPointClick?: (point: MapPoint) => void;
   backgroundImage?: string; // 卫星图片URL
+  selectedPointId?: string; // 当前选中的点ID
+  showHoverTooltip?: boolean; // 是否显示悬浮提示
 }
 
 // 基于重新设计的洲石路卫星图的标注点位
@@ -28,7 +32,8 @@ const mapPoints: MapPoint[] = [
     y: 47,
     type: 'industrial',
     description: '左侧工业区',
-    details: '富源工业城的老板和员工聚集抗议，要求复工和进入取物'
+    details: '警戒线外，在富源工业城工作的老谢表现出相当地克制，他告诉记者："民警也不容易，人多闹事没有意义，最好的办法是工业城和政府各派代表协商一下，如果可以的话就派代表进去，取一些必要的财物就出来，如果太过危险也希望有官方能派人出来解释里面的情况，安抚一下。"',
+    image: '/images/fy.svg'
   },
   {
     id: 'qiangrong',
@@ -37,7 +42,8 @@ const mapPoints: MapPoint[] = [
     y: 47,
     type: 'industrial',
     description: '右侧工业区',
-    details: '强荣的员工在工作人员陪同下，从飞达路内用小拖车运出货物'
+    details: '强荣的几位员工在现场工作人员的陪同下，从飞达路内用小拖车运出一箱箱货物。一位富源工业城的工头忿忿不平地说："人家强荣的比我们团结，能找到代表进去拿东西，我们也该聚起来，你们找个代表来跟我们谈。我们也要进去拿东西出来。"\n\n"我们只是尽职来维持秩序，决定不了这些，还请大家配合。"一位年轻些的民警尽可能劝导着人群，仍架不住人群的怒火。\n\n"街道办、居委会的电话都打不通！"\n\n"人家周末休息呢，全都摆烂了。"\n\n"三天了，你们到底有没有应急预案？"\n\n"我们外面活人的事情到底还管不管？"\n\n现场有民警听不下去，大声谴责："人命关天，里面救援这么久，人家失联人员家属就在旁边，你说这种话，还有良心吗？"人群短暂安静了片刻，又有人开始嘀咕起来。\n\n双向马路中央的绿化带边停着救护车，失联人员家属坐在牙子上，一众工作人员围在他们身边进行安抚。事故封闭路口陆陆续续驶出装满泥沙的重型卡车，时不时有救援车辆进入，依然有人不顾阻挠，来回横穿马路。民警沉默，一次又一次拉起警戒线。',
+    image: '/images/qrd.svg'
   },
   {
     id: 'accident-site',
@@ -46,7 +52,7 @@ const mapPoints: MapPoint[] = [
     y: 15,
     type: 'accident',
     description: '事故发生地',
-    details: '2024年12月4日23时许，13名现场作业人员失联'
+    details: '塌方路段冰冷的地表以下，还掩埋着13名遇难者，“失踪”是他们留在世人眼中最后的信息。'
   },
   {
     id: 'intersection',
@@ -55,16 +61,18 @@ const mapPoints: MapPoint[] = [
     y: 67,
     type: 'conflict',
     description: '争执现场',
-    details: '民警在道路中间绿化带与斑马线的交界处一字排开，形成一道人墙'
+    details: '人群还在继续躁动。正午，有人提议大家去附近高楼楼顶"集体跳楼示威"，带头喧闹的几人风风火火地离开。直到下午四点，记者并未见有人攀上附近的楼顶，后来也再未见到这些人回到现场。\n\n聚集在路口的工人大多为附近工人与工厂主，诉求是复工和补偿；而对于附近住户来说，主要影响是交通、住所和生活物资问题。\n\n周围店铺老板告诉记者，下午六点左右路面发出异响，约八点道路封闭，十一点钟听见有人手持扩音喇叭在员工宿舍一带紧急疏散。员工普遍反映，疏散人员原称"估计三四天可以复工"。\n\n紧急疏散后部分住户被安置在附近的酒店，但聚集在十字路口"抗议"的住户反映没有得到安置，还有住户反映自己在航城街道网格综合管理中心临时休息。\n\n航城街道网格综合管理中心六楼会议室内，横七竖八地分散着几张折叠床，床上堆着凌乱的被褥。工作人员告诉记者，这间会议室在事故发生后作为临时安置点接待疏散人群，"5号晚上有几号人在这里睡过，不过一大早他们就又走了，也不知道去了哪里。"\n\n会议桌上摆放着矿泉水、面包和几床尚未开封的被褥。管理中心的办公区只有一位工作人员驻守，他告诉记者，事故发生之后，街道办和社区的工作压力很大，人手不够，其他同事全部被派往街道各处，对接疏散群众去了。',
+    images: ['/images/zs1.svg', '/images/zs2.svg']
   }
 ];
 
 export default function SatelliteMap({
   className = '',
   onPointClick,
-  backgroundImage = '/images/satellite-map.svg' // 默认卫星图
+  backgroundImage = '/images/simplified-map.svg', // 默认简化地图
+  selectedPointId,
+  showHoverTooltip = true
 }: SatelliteMapProps) {
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
   const [hoveredPoint, setHoveredPoint] = useState<MapPoint | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -82,7 +90,6 @@ export default function SatelliteMap({
   }, [imageLoaded]);
 
   const handlePointClick = (point: MapPoint) => {
-    setSelectedPoint(point);
     onPointClick?.(point);
   };
 
@@ -177,10 +184,10 @@ export default function SatelliteMap({
           >
             {/* 点位标记 */}
             <div className={`
-              ${getPointColor(point.type)} 
-              ${getPointSize(point.type)} 
+              ${getPointColor(point.type)}
+              ${getPointSize(point.type)}
               rounded-full border-2 border-white shadow-lg
-              ${selectedPoint?.id === point.id ? 'ring-4 ring-white/50' : ''}
+              ${selectedPointId === point.id ? 'ring-4 ring-white/50' : ''}
             `} />
             
             {/* 脉冲动画（仅事故点） */}
@@ -244,48 +251,26 @@ export default function SatelliteMap({
       </div>
 
       {/* 悬浮信息卡片 */}
-      <AnimatePresence>
-        {hoveredPoint && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute top-4 right-4 bg-black/95 text-white p-4 rounded-lg max-w-xs z-20 backdrop-blur-sm border border-white/20"
-          >
-            <h3 className="font-semibold text-lg mb-2">{hoveredPoint.name}</h3>
-            <p className="text-sm text-gray-300 mb-2">{hoveredPoint.description}</p>
-            {hoveredPoint.details && (
-              <p className="text-xs text-gray-400">{hoveredPoint.details}</p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showHoverTooltip && (
+        <AnimatePresence>
+          {hoveredPoint && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="absolute top-4 right-4 bg-black/95 text-white p-4 rounded-lg max-w-xs z-20 backdrop-blur-sm border border-white/20"
+            >
+              <h3 className="font-semibold text-lg mb-2">{hoveredPoint.name}</h3>
+              <p className="text-sm text-gray-300 mb-2">{hoveredPoint.description}</p>
+              {hoveredPoint.details && (
+                <p className="text-xs text-gray-400 line-clamp-3">{hoveredPoint.details}</p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
 
-      {/* 详细信息面板 */}
-      <AnimatePresence>
-        {selectedPoint && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="absolute bottom-4 left-4 right-4 bg-black/95 text-white p-6 rounded-lg backdrop-blur-sm z-20 border border-white/20"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="font-bold text-xl">{selectedPoint.name}</h3>
-              <button
-                onClick={() => setSelectedPoint(null)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-            <p className="text-gray-300 mb-3">{selectedPoint.description}</p>
-            {selectedPoint.details && (
-              <p className="text-sm text-gray-400 leading-relaxed">{selectedPoint.details}</p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* 图例 */}
       <div className="absolute top-4 left-4 bg-black/90 text-white p-4 rounded-lg backdrop-blur-sm z-10 border border-white/20">
@@ -306,18 +291,7 @@ export default function SatelliteMap({
         </div>
       </div>
 
-      {/* 清除选择按钮 */}
-      <div className="absolute bottom-4 right-4 z-10">
-        <button
-          onClick={() => setSelectedPoint(null)}
-          className="bg-black/80 text-white p-2 rounded border border-white/20 hover:bg-black/90 transition-colors text-xs"
-          title="清除选择"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+
     </div>
   );
 }

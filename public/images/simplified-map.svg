@@ -1,0 +1,103 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="800" height="600" fill="#1a1a1a"/>
+  
+  <!-- 主要道路 -->
+  <!-- 洲石路 (纵轴，正中间) -->
+  <rect x="390" y="0" width="20" height="600" fill="#f59e0b" opacity="0.9"/>
+  <line x1="400" y1="0" x2="400" y2="600" stroke="#ffffff" stroke-width="1" stroke-dasharray="8,4" opacity="0.6"/>
+  
+  <!-- 飞达路 (横轴，下三分之一位置) -->
+  <rect x="0" y="390" width="800" height="20" fill="#f59e0b" opacity="0.9"/>
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#ffffff" stroke-width="1" stroke-dasharray="8,4" opacity="0.6"/>
+  
+  <!-- 次要道路网络 -->
+  <g stroke="#4a5568" stroke-width="2" opacity="0.4">
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="500" x2="800" y2="500"/>
+  </g>
+  
+  <!-- 区域划分 -->
+  <!-- 富源工业城区域 -->
+  <rect x="50" y="180" width="300" height="180" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,6" opacity="0.7"/>
+  <rect x="80" y="210" width="240" height="120" fill="#1e40af" opacity="0.15"/>
+  
+  <!-- 强荣东工业园区域 -->
+  <rect x="450" y="180" width="300" height="180" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,6" opacity="0.7"/>
+  <rect x="480" y="210" width="240" height="120" fill="#1e40af" opacity="0.15"/>
+  
+  <!-- 事故现场区域 -->
+  <rect x="340" y="40" width="120" height="100" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.9"/>
+  <rect x="350" y="50" width="100" height="80" fill="#dc2626" opacity="0.2"/>
+  
+  <!-- 争执现场区域 -->
+  <circle cx="400" cy="400" r="60" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4" opacity="0.8"/>
+  <circle cx="400" cy="400" r="40" fill="#059669" opacity="0.15"/>
+  
+  <!-- 关键标记点 -->
+  <!-- 深江铁路5标段施工现场 -->
+  <g>
+    <circle cx="400" cy="90" r="8" fill="#ef4444"/>
+    <circle cx="400" cy="90" r="12" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.6"/>
+    <circle cx="400" cy="90" r="16" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.3"/>
+  </g>
+  
+  <!-- 富源工业城 -->
+  <g>
+    <circle cx="200" cy="270" r="6" fill="#3b82f6"/>
+    <circle cx="200" cy="270" r="10" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+  </g>
+  
+  <!-- 强荣东工业园 -->
+  <g>
+    <circle cx="600" cy="270" r="6" fill="#3b82f6"/>
+    <circle cx="600" cy="270" r="10" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+  </g>
+  
+  <!-- 洲石路与飞达路交叉口争执现场 -->
+  <g>
+    <circle cx="400" cy="400" r="6" fill="#10b981"/>
+    <circle cx="400" cy="400" r="10" fill="none" stroke="#10b981" stroke-width="2" opacity="0.6"/>
+  </g>
+  
+  <!-- 简化的建筑群表示 -->
+  <!-- 富源工业城建筑 -->
+  <g fill="#374151" opacity="0.6">
+    <rect x="120" y="240" width="20" height="15"/>
+    <rect x="150" y="235" width="25" height="20"/>
+    <rect x="185" y="245" width="18" height="12"/>
+    <rect x="220" y="240" width="22" height="18"/>
+    <rect x="250" y="250" width="20" height="10"/>
+  </g>
+  
+  <!-- 强荣东工业园建筑 -->
+  <g fill="#374151" opacity="0.6">
+    <rect x="520" y="240" width="20" height="15"/>
+    <rect x="550" y="235" width="25" height="20"/>
+    <rect x="585" y="245" width="18" height="12"/>
+    <rect x="620" y="240" width="22" height="18"/>
+    <rect x="650" y="250" width="20" height="10"/>
+  </g>
+  
+  <!-- 网格线 (可选，增加专业感) -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#374151" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  
+  <!-- 方向指示 -->
+  <g fill="#9ca3af" font-family="Arial, sans-serif" font-size="14" opacity="0.8">
+    <text x="750" y="30" text-anchor="middle">N</text>
+    <polygon points="745,35 755,35 750,45" fill="#9ca3af"/>
+  </g>
+  
+  <!-- 简洁的标注 -->
+  <g fill="#e5e7eb" font-family="Arial, sans-serif" font-size="11" opacity="0.9">
+    <text x="400" y="25" text-anchor="middle" font-weight="bold">洲石路</text>
+    <text x="30" y="385" text-anchor="start" font-weight="bold">飞达路</text>
+  </g>
+</svg>

@@ -114,10 +114,10 @@ export default function SatelliteMap({
 
   return (
     <div className={`relative w-full h-full ${className}`}>
-      {/* 卫星图背景 */}
-      <div 
+      {/* 地图背景 - 完全透明融入页面 */}
+      <div
         ref={mapRef}
-        className="relative w-full h-full bg-gray-900 rounded-lg overflow-hidden"
+        className="relative w-full h-full bg-transparent overflow-hidden"
       >
         {/* 背景图片 */}
         <div className="absolute inset-0">
@@ -156,15 +156,12 @@ export default function SatelliteMap({
           
           {/* 如果图片未加载，显示默认背景 */}
           {!imageLoaded && (
-            <div className="absolute inset-0 bg-gray-800 flex flex-col items-center justify-center">
-              <div className="text-white text-sm mb-2">加载卫星图中...</div>
-              <div className="text-gray-400 text-xs">{backgroundImage}</div>
-              <div className="mt-4 w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 bg-transparent flex flex-col items-center justify-center">
+              <div className="text-white text-sm mb-2 bg-black/70 px-3 py-1 rounded">加载地图中...</div>
+              <div className="text-gray-400 text-xs bg-black/50 px-2 py-1 rounded">{backgroundImage}</div>
+              <div className="mt-4 w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
-          
-          {/* 半透明遮罩，增强标注点的可见性 */}
-          <div className="absolute inset-0 bg-black/30" />
         </div>
 
         {/* 地图标注点 */}
@@ -258,7 +255,7 @@ export default function SatelliteMap({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute top-4 right-4 bg-black/95 text-white p-4 rounded-lg max-w-xs z-20 backdrop-blur-sm border border-white/20"
+              className="absolute top-4 right-4 bg-black/80 text-white p-3 rounded max-w-xs z-20 backdrop-blur-sm border border-white/10"
             >
               <h3 className="font-semibold text-lg mb-2">{hoveredPoint.name}</h3>
               <p className="text-sm text-gray-300 mb-2">{hoveredPoint.description}</p>
@@ -272,21 +269,21 @@ export default function SatelliteMap({
 
 
 
-      {/* 图例 */}
-      <div className="absolute top-4 left-4 bg-black/90 text-white p-4 rounded-lg backdrop-blur-sm z-10 border border-white/20">
-        <h4 className="font-semibold mb-3 text-sm">图例</h4>
-        <div className="space-y-2 text-xs">
+      {/* 图例 - 更融合的设计 */}
+      <div className="absolute top-4 left-4 bg-black/70 text-white p-3 rounded backdrop-blur-sm z-10 border border-white/10">
+        <h4 className="font-medium mb-2 text-xs text-gray-300">图例</h4>
+        <div className="space-y-1.5 text-xs">
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-red-500 rounded-full border border-red-300"></div>
-            <span>事故现场</span>
+            <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+            <span className="text-gray-200">事故现场</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full border border-blue-300"></div>
-            <span>工业区</span>
+            <div className="w-2.5 h-2.5 bg-blue-500 rounded-full"></div>
+            <span className="text-gray-200">工业区</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full border border-green-300"></div>
-            <span>争执现场</span>
+            <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+            <span className="text-gray-200">争执现场</span>
           </div>
         </div>
       </div>

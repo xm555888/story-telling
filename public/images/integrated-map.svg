@@ -1,0 +1,73 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 完全透明背景，融入页面背景 -->
+  <rect width="800" height="600" fill="transparent"/>
+  
+  <!-- 主要道路 - 更细的线条，更融合的颜色 -->
+  <!-- 洲石路 (纵轴，正中间) -->
+  <line x1="400" y1="0" x2="400" y2="600" stroke="#f59e0b" stroke-width="4" opacity="0.8"/>
+  <line x1="400" y1="0" x2="400" y2="600" stroke="#ffffff" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+  
+  <!-- 飞达路 (横轴，下三分之一位置) -->
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#f59e0b" stroke-width="4" opacity="0.8"/>
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#ffffff" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+  
+  <!-- 次要道路网络 - 非常淡的线条 -->
+  <g stroke="#6b7280" stroke-width="1" opacity="0.2">
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="500" x2="800" y2="500"/>
+  </g>
+  
+  <!-- 区域标识 - 极简的虚线框 -->
+  <!-- 富源工业城区域 -->
+  <rect x="50" y="180" width="300" height="180" fill="none" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+  
+  <!-- 强荣东工业园区域 -->
+  <rect x="450" y="180" width="300" height="180" fill="none" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+  
+  <!-- 事故现场区域 -->
+  <rect x="340" y="40" width="120" height="100" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,6" opacity="0.6"/>
+  
+  <!-- 争执现场区域 -->
+  <circle cx="400" cy="400" r="60" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  
+  <!-- 极简的建筑表示 - 只用小点 -->
+  <!-- 富源工业城建筑 -->
+  <g fill="#6b7280" opacity="0.3">
+    <circle cx="150" cy="250" r="2"/>
+    <circle cx="180" cy="240" r="2"/>
+    <circle cx="220" cy="260" r="2"/>
+    <circle cx="250" cy="245" r="2"/>
+    <circle cx="280" cy="255" r="2"/>
+  </g>
+  
+  <!-- 强荣东工业园建筑 -->
+  <g fill="#6b7280" opacity="0.3">
+    <circle cx="550" cy="250" r="2"/>
+    <circle cx="580" cy="240" r="2"/>
+    <circle cx="620" cy="260" r="2"/>
+    <circle cx="650" cy="245" r="2"/>
+    <circle cx="680" cy="255" r="2"/>
+  </g>
+  
+  <!-- 极简的网格 - 非常淡 -->
+  <defs>
+    <pattern id="subtleGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#374151" stroke-width="0.5" opacity="0.05"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#subtleGrid)"/>
+  
+  <!-- 道路标注 - 极简 -->
+  <g fill="#e5e7eb" font-family="Arial, sans-serif" font-size="10" opacity="0.7">
+    <text x="410" y="20" text-anchor="start" font-weight="normal">洲石路</text>
+    <text x="20" y="395" text-anchor="start" font-weight="normal">飞达路</text>
+  </g>
+  
+  <!-- 方向指示 - 更小更淡 -->
+  <g fill="#9ca3af" font-family="Arial, sans-serif" font-size="10" opacity="0.5">
+    <text x="770" y="25" text-anchor="middle">N</text>
+    <polygon points="767,28 773,28 770,35" fill="#9ca3af" opacity="0.5"/>
+  </g>
+</svg>

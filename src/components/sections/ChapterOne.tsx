@@ -129,13 +129,13 @@ export default function ChapterOne() {
                 </p>
               </div>
 
-              {/* 地图容器 */}
-              <div className="relative bg-black/30 rounded-2xl border border-gray-600 overflow-hidden backdrop-blur-sm">
+              {/* 地图容器 - 完全融入背景 */}
+              <div className="relative w-full">
                 <div className="aspect-[3/2] w-full">
                   <SatelliteMap
                     onPointClick={handleMapPointClick}
                     className="w-full h-full"
-                    backgroundImage="/images/simplified-map.svg"
+                    backgroundImage="/images/integrated-map.svg"
                     selectedPointId={selectedMapPoint?.id}
                     showHoverTooltip={true}
                   />

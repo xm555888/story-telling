@@ -2,6 +2,7 @@
 
 import HeroSection from '@/components/sections/HeroSection';
 import ChapterOne from '@/components/sections/ChapterOne';
+import { ChapterTwo } from '@/components/sections/ChapterTwo';
 import Navigation from '@/components/layout/Navigation';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 
@@ -27,13 +28,8 @@ export default function Home() {
           {/* 第一章 */}
           <ChapterOne />
 
-        {/* 占位符：第二章和第三章 */}
-        <section id="chapter-2" className="min-h-screen bg-gray-900 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h2 className="text-4xl font-bold mb-4">第二章：掩埋</h2>
-            <p className="text-gray-400">即将推出...</p>
-          </div>
-        </section>
+          {/* 第二章 */}
+          <ChapterTwo />
 
           <section id="chapter-3" className="min-h-screen bg-gray-800 flex items-center justify-center">
             <div className="text-center text-white">

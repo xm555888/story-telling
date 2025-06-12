@@ -141,6 +141,35 @@ export default function ChapterOne() {
                   />
                 </div>
               </div>
+
+              {/* 章节结尾过渡 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2, duration: 1 }}
+                className="mt-16 text-center"
+              >
+                <div className="max-w-3xl mx-auto">
+                  <p className="text-lg text-gray-400 leading-relaxed mb-8">
+                    争执还在继续，但时间在流逝。12月7日的愤怒与焦虑，
+                    即将被12月8日更加沉重的现实所取代...
+                  </p>
+                  <motion.div
+                    animate={{
+                      opacity: [0.5, 1, 0.5],
+                      scale: [0.95, 1, 0.95]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="text-white/60 text-sm"
+                  >
+                    时间推移至12月8日...
+                  </motion.div>
+                </div>
+              </motion.div>
             </div>
           </div>
 

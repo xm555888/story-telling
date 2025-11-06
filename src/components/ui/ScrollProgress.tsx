@@ -28,10 +28,9 @@ export default function ScrollProgress({ className = '' }: ScrollProgressProps) 
     <div className={`fixed top-0 left-0 w-full h-1 bg-gray-800 z-50 ${className}`}>
       <motion.div
         className="h-full bg-white"
-        style={{ scaleX: scrollProgress }}
+        style={{ scaleX: scrollProgress, transformOrigin: 'left' }}
         initial={{ scaleX: 0 }}
         transition={{ duration: 0.1 }}
-        transformOrigin="left"
       />
     </div>
   );

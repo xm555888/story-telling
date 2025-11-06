@@ -11,7 +11,7 @@ interface NavigationItem {
 }
 
 interface NavigationProps {
-  items: NavigationItem[];
+  items?: NavigationItem[];
   currentSection?: string;
 }
 
@@ -93,7 +93,7 @@ export default function Navigation({
         >
           <div className="backdrop-blur-custom bg-black/20 rounded-lg p-4 border border-gray-700">
             <div className="space-y-4">
-              {items.map((item, index) => (
+              {items.map((item) => (
                 <motion.button
                   key={item.id}
                   onClick={() => handleNavClick(item.href)}

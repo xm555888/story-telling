@@ -36,7 +36,7 @@ export function PieChart({ data, title, className = '' }: PieChartProps) {
     const total = data.reduce((sum, item) => sum + item.value, 0);
     let currentAngle = -90; // 从顶部开始
 
-    data.forEach((item, index) => {
+    data.forEach((item) => {
       const angle = (item.value / total) * 360;
       const startAngle = currentAngle;
       const endAngle = currentAngle + angle;

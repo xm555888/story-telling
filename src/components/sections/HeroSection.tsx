@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import AnimatedText from '../ui/AnimatedText';
 
@@ -11,9 +11,6 @@ export default function HeroSection() {
 
   // 滚动监听 - 监听整个页面的滚动
   const { scrollY } = useScroll();
-
-  // 内容透明度变化 - 在临界值处突然消失，模仿华盛顿邮报效果
-  const contentOpacity = useTransform(scrollY, [0, 200, 400, 401], [1, 0.7, 0.1, 0]);
 
   // Hero组件整体可见性 - 在临界值处完全隐藏
   const heroVisibility = useTransform(scrollY, [0, 399, 400], [1, 1, 0]);

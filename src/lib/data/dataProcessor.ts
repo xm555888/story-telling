@@ -128,24 +128,44 @@ export class DataProcessor {
   }
 
   // 处理事故数据
-  static processAccidentData(rawData: any[]): ProcessedAccidentData[] {
+  static processAccidentData(rawData: Array<Record<string, unknown>>): ProcessedAccidentData[] {
     return rawData.map((item, index) => ({
-      ...item,
+      road_type: String(item.road_type || ''),
+      accident_time: String(item.accident_time || ''),
+      accident_location: String(item.accident_location || ''),
+      injury_statistics: String(item.injury_statistics || ''),
+      accident_report: String(item.accident_report || ''),
+      construction_company: item.construction_company ? String(item.construction_company) : null,
+      completion_time: item.completion_time ? String(item.completion_time) : null,
+      normal_lifespan: item.normal_lifespan ? String(item.normal_lifespan) : null,
+      maintenance_cycle: item.maintenance_cycle ? String(item.maintenance_cycle) : null,
+      time_since_completion: item.time_since_completion ? String(item.time_since_completion) : null,
+      url: String(item.url || ''),
+      error: item.error ? String(item.error) : null,
       id: `accident-${index}`,
-      parsedDate: this.parseTimeString(item.accident_time),
-      province: this.extractProvince(item.accident_location),
-      casualties: this.extractCasualties(item.injury_statistics),
-      roadTypeCategory: this.categorizeRoadType(item.road_type),
+      parsedDate: this.parseTimeString(String(item.accident_time || '')),
+      province: this.extractProvince(String(item.accident_location || '')),
+      casualties: this.extractCasualties(String(item.injury_statistics || '')),
+      roadTypeCategory: this.categorizeRoadType(String(item.road_type || '')),
     }));
   }
 
   // 处理媒体数据
-  static processMediaData(rawData: any[]): ProcessedMediaData[] {
+  static processMediaData(rawData: Array<Record<string, unknown>>): ProcessedMediaData[] {
     return rawData.map((item, index) => ({
-      ...item,
+      article_character_count: typeof item.article_character_count === 'number' ? item.article_character_count : 0,
+      publisher_id_location: String(item.publisher_id_location || ''),
+      publish_time: typeof item.publish_time === 'number' ? item.publish_time : 0,
+      publisher_name: String(item.publisher_name || ''),
+      publisher_type: String(item.publisher_type || ''),
+      publish_form_type: String(item.publish_form_type || ''),
+      content_type: String(item.content_type || ''),
+      on_site_video: String(item.on_site_video || ''),
+      url: String(item.url || ''),
+      error: item.error ? String(item.error) : null,
       id: `media-${index}`,
-      parsedDate: this.excelDateToJSDate(item.publish_time),
-      isGovernmentSource: this.isGovernmentPublisher(item.publisher_type),
+      parsedDate: this.excelDateToJSDate(typeof item.publish_time === 'number' ? item.publish_time : 0),
+      isGovernmentSource: this.isGovernmentPublisher(String(item.publisher_type || '')),
       hasVideo: item.on_site_video === '有',
     }));
   }

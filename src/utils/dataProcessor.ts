@@ -48,7 +48,7 @@ export interface LocationStats {
   percentage: number;
 }
 
-export function processZSLData(rawData: any[]): {
+export function processZSLData(rawData: Array<Record<string, unknown>>): {
   articles: ProcessedArticle[];
   dailyStats: DailyStats[];
   publisherTypeStats: PublisherTypeStats[];
@@ -58,19 +58,23 @@ export function processZSLData(rawData: any[]): {
 } {
   // 处理文章数据
   const articles: ProcessedArticle[] = rawData.map((item, index) => {
-    const publishDate = excelDateToJSDate(item.publish_time);
+    const publishDate = excelDateToJSDate(typeof item.publish_time === 'number' ? item.publish_time : 0);
+    const publisherTypeStr = String(item.publisher_type || '');
+    const validPublisherTypes: Array<'政府官方账号' | '新闻媒体' | '自媒体'> = ['政府官方账号', '新闻媒体', '自媒体'];
+    const publisherType = (validPublisherTypes.includes(publisherTypeStr as '政府官方账号' | '新闻媒体' | '自媒体') ? publisherTypeStr : '自媒体') as '政府官方账号' | '新闻媒体' | '自媒体';
+
     return {
       id: `article-${index}`,
-      characterCount: item.article_character_count,
-      publisherLocation: item.publisher_id_location,
+      characterCount: typeof item.article_character_count === 'number' ? item.article_character_count : 0,
+      publisherLocation: String(item.publisher_id_location || ''),
       publishTime: publishDate,
       publishTimeFormatted: formatChineseDate(publishDate),
-      publisherName: item.publisher_name,
-      publisherType: item.publisher_type,
-      publishFormType: item.publish_form_type,
-      contentType: item.content_type,
+      publisherName: String(item.publisher_name || ''),
+      publisherType: publisherType,
+      publishFormType: String(item.publish_form_type || ''),
+      contentType: String(item.content_type || ''),
       hasVideo: item.on_site_video === '有',
-      url: item.url
+      url: String(item.url || '')
     };
   });
 

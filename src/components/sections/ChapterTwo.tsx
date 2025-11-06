@@ -3,14 +3,36 @@ import { motion } from 'framer-motion';
 import { MediaSuppressionChart } from '../charts/MediaSuppressionChart';
 import { PieChart } from '../charts/PieChart';
 import { StatCard, StatIcons } from '../charts/StatCard';
-import { processZSLData, getExclusiveStats, getVideoStats } from '../../utils/dataProcessor';
+import { processZSLData, getExclusiveStats, getVideoStats, ProcessedArticle, DailyStats, PublisherTypeStats, LocationStats } from '../../utils/dataProcessor';
+
+interface ExclusiveStats {
+  totalExclusive: number;
+  exclusiveByMedia: number;
+  exclusivePercentage: number;
+}
+
+interface VideoStats {
+  totalWithVideo: number;
+  videoPercentage: number;
+}
+
+interface ProcessedData {
+  dailyStats: DailyStats[];
+  publisherTypeStats: PublisherTypeStats[];
+  locationStats: LocationStats[];
+  articles: ProcessedArticle[];
+  totalArticles: number;
+  peakDay: { date: string; count: number };
+  exclusiveStats?: ExclusiveStats;
+  videoStats?: VideoStats;
+}
 
 interface ChapterTwoProps {
   className?: string;
 }
 
 export function ChapterTwo({ className = '' }: ChapterTwoProps) {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ProcessedData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,19 +79,19 @@ export function ChapterTwo({ className = '' }: ChapterTwoProps) {
   }
 
   // 准备图表数据
-  const dailyChartData = data.dailyStats.map((stat: any) => ({
+  const dailyChartData = data.dailyStats.map((stat) => ({
     date: stat.date,
     count: stat.count
   }));
 
-  const publisherTypeChartData = data.publisherTypeStats.map((stat: any, index: number) => ({
+  const publisherTypeChartData = data.publisherTypeStats.map((stat, index) => ({
     label: stat.type,
     value: stat.count,
     percentage: stat.percentage,
     color: ['#3b82f6', '#10b981', '#f59e0b'][index] || '#6b7280'
   }));
 
-  const locationChartData = data.locationStats.map((stat: any, index: number) => ({
+  const locationChartData = data.locationStats.map((stat, index) => ({
     label: stat.location,
     value: stat.count,
     percentage: stat.percentage,
@@ -129,7 +151,7 @@ export function ChapterTwo({ className = '' }: ChapterTwoProps) {
               <div className="bg-black/40 rounded-2xl p-6 backdrop-blur-sm border border-white/10">
                 <h3 className="text-xl font-bold text-blue-400 mb-4">深圳广播电视台</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  8日上午11时，一辆印有"深圳广播电视台"字样的黑色轿车驶达人群聚集的十字路口，
+                  8日上午11时，一辆印有&ldquo;深圳广播电视台&rdquo;字样的黑色轿车驶达人群聚集的十字路口，
                   与现场民警交涉了约<span className="text-yellow-400 font-bold">5分钟</span>，掉头离开。
                 </p>
               </div>
@@ -137,7 +159,7 @@ export function ChapterTwo({ className = '' }: ChapterTwoProps) {
                 <h3 className="text-xl font-bold text-green-400 mb-4">学生记者的遭遇</h3>
                 <p className="text-gray-300 leading-relaxed">
                   深圳大学传播学院学生记者于下午四点前往航城街道社区站媒体接待处，
-                  当日晚，学生记者上级老师接到了航城街道<span className="text-red-400 font-bold">"核实身份"</span>的电话。
+                  当日晚，学生记者上级老师接到了航城街道<span className="text-red-400 font-bold">&ldquo;核实身份&rdquo;</span>的电话。
                 </p>
               </div>
             </div>
@@ -170,20 +192,24 @@ export function ChapterTwo({ className = '' }: ChapterTwoProps) {
                 color="red"
                 icon={<StatIcons.Calendar />}
               />
-              <StatCard
-                title="独家报道"
-                value={data.exclusiveStats.totalExclusive}
-                subtitle={`专业媒体仅${data.exclusiveStats.exclusiveByMedia}篇`}
-                color="yellow"
-                icon={<StatIcons.Media />}
-              />
-              <StatCard
-                title="含视频文章"
-                value={`${data.videoStats.videoPercentage}%`}
-                subtitle={`${data.videoStats.totalWithVideo}篇`}
-                color="green"
-                icon={<StatIcons.Video />}
-              />
+              {data.exclusiveStats && (
+                <StatCard
+                  title="独家报道"
+                  value={data.exclusiveStats.totalExclusive}
+                  subtitle={`专业媒体仅${data.exclusiveStats.exclusiveByMedia}篇`}
+                  color="yellow"
+                  icon={<StatIcons.Media />}
+                />
+              )}
+              {data.videoStats && (
+                <StatCard
+                  title="含视频文章"
+                  value={`${data.videoStats.videoPercentage}%`}
+                  subtitle={`${data.videoStats.totalWithVideo}篇`}
+                  color="green"
+                  icon={<StatIcons.Video />}
+                />
+              )}
             </div>
 
             {/* 主要图表 */}

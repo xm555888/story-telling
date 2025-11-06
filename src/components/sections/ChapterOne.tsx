@@ -92,19 +92,19 @@ export default function ChapterOne() {
             <div className="space-y-8 max-w-4xl mx-auto px-8">
               <div className="flex items-center justify-center min-h-[25vh]">
                 <p className="text-2xl md:text-3xl text-white text-center leading-relaxed drop-shadow-lg">
-                  "说好的三四天能开工，到今天还是没有回复！"
+                  &ldquo;说好的三四天能开工，到今天还是没有回复！&rdquo;
                 </p>
               </div>
 
               <div className="flex items-center justify-center min-h-[25vh]">
                 <p className="text-2xl md:text-3xl text-white text-center leading-relaxed drop-shadow-lg">
-                  "富源几千上万员工，都是外地来打工的，快年底过年了，不开工怎么赚钱。"
+                  &ldquo;富源几千上万员工，都是外地来打工的，快年底过年了，不开工怎么赚钱。&rdquo;
                 </p>
               </div>
 
               <div className="flex items-center justify-center min-h-[25vh]">
                 <p className="text-2xl md:text-3xl text-white text-center leading-relaxed drop-shadow-lg">
-                  "四号下午就把路围起来了，晚上十一点紧急遣散我们，孩子的书包、药、生活用品全在里面，该怎么办才好？"
+                  &ldquo;四号下午就把路围起来了，晚上十一点紧急遣散我们，孩子的书包、药、生活用品全在里面，该怎么办才好？&rdquo;
                 </p>
               </div>
             </div>
